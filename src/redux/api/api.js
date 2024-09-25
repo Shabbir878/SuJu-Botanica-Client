@@ -112,16 +112,16 @@ export const baseApi = createApi({
     // Cart Endpoints
     getCart: builder.query({
       query: () => ({
-        method: "GET",
         url: "/carts",
+        method: "GET",
       }),
       providesTags: ["cart"],
     }),
     addToCart: builder.mutation({
       query: (data) => ({
         method: "POST",
-        url: "/carts/add",
-        body: data,
+        url: "/carts", // Ensure this matches your backend endpoint
+        body: data, // This should include the product's ObjectId
         headers: {
           "Content-Type": "application/json",
         },
@@ -130,8 +130,8 @@ export const baseApi = createApi({
     }),
     removeFromCart: builder.mutation({
       query: (id) => ({
+        url: `/carts/${id}`, // Ensure id is a MongoDB ObjectId
         method: "DELETE",
-        url: `/carts/${id}`,
       }),
       invalidatesTags: ["cart"],
     }),

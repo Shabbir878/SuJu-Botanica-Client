@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import {
   useGetProductsQuery,
@@ -46,7 +46,6 @@ const ProductList = () => {
 
   // Use the custom cart hook
   const { handleAddToCart } = useCart();
-  const navigate = useNavigate();
 
   const handleEdit = (item) => {
     setSelectedProductId(item._id);
@@ -106,20 +105,6 @@ const ProductList = () => {
       }
     });
   };
-
-  // Function to handle adding a product to the cart
-  // const addToCartHandler = (item) => {
-  //   handleAddToCart({
-  //     productId: item._id,
-  //     title: item.title,
-  //     price: item.price,
-  //     quantity: 1,
-  //     image: item.image,
-  //   });
-
-  //   // Navigate to cart after adding the item
-  //   navigate("/products/cart");
-  // };
 
   const addToCartHandler = (product) => {
     handleAddToCart(product)

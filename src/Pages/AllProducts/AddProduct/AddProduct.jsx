@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { FaTree } from "react-icons/fa";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify"; // Import toast
 import { useAddProductMutation } from "../../../redux/api/api";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -15,6 +16,7 @@ const AddProduct = () => {
     formState: { errors },
   } = useForm();
   const [addProduct] = useAddProductMutation();
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const onSubmit = async (data) => {
     // Image upload to imgbb & then get an url
@@ -44,19 +46,30 @@ const AddProduct = () => {
       const productRes = await addProduct(productData);
       console.log(productRes);
 
-      if (productRes?.insertedId) {
+      // Check if product was added successfully
+      if (productRes?.data?.insertedId) {
         reset();
-        // Show success popup
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `${data.title} is added to the product`,
-          showConfirmButton: false,
-          timer: 1500,
+        // Show success toast notification
+        toast.success(`${data.title} has been added successfully!`, {
+          position: "top-right",
+          autoClose: 2000,
+        });
+
+        // Navigate to /allProduct
+        navigate("/products/allProducts");
+      } else {
+        // Handle error case if product was not added
+        toast.error("Failed to add the product.", {
+          position: "top-right",
+          autoClose: 2000,
         });
       }
+    } else {
+      toast.error("Image upload failed.", {
+        position: "top-right",
+        autoClose: 2000,
+      });
     }
-    console.log("with image url", resData);
   };
 
   return (

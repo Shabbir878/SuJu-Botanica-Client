@@ -12,51 +12,33 @@ const useCart = () => {
   const [removeFromCart] = useRemoveFromCartMutation();
   const navigate = useNavigate();
 
-  // Function to add item to cart with quantity management logic
+  // Function to add item to cart
   const handleAddToCart = async (product) => {
     try {
-      const existingItem = cart.find((item) => item.productId === product._id);
+      const itemData = {
+        productId: product._id, // Use MongoDB ObjectId here
+        title: product.title,
+        price: product.price,
+        quantity: 1, // Default quantity when adding the item
+        image: product.image,
+      };
+      await addToCart(itemData).unwrap(); // This sends the data with the ObjectId
+      refetch();
+      toast.success(`${product.title} added to the cart`);
 
-      // If the product already exists in the cart
-      if (existingItem) {
-        if (existingItem.quantity < product.quantity) {
-          const updatedCart = cart.map((item) =>
-            item.productId === product._id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          );
-
-          await addToCart({ cart: updatedCart }).unwrap();
-          refetch();
-          toast.success(`${product.title} quantity increased in the cart`);
-        } else {
-          toast.error("Maximum quantity reached");
-        }
-      } else {
-        // If the product is not in the cart, add it with quantity 1
-        const newCartItem = {
-          productId: product._id,
-          title: product.title,
-          price: product.price,
-          quantity: 1,
-          image: product.image,
-        };
-
-        await addToCart(newCartItem).unwrap();
-        refetch();
-        toast.success(`${product.title} added to the cart`);
-      }
-
-      navigate("/products/cart"); // Navigate to cart after adding/updating
+      // Navigate to the cart page after adding to cart
+      navigate("/products/cart");
     } catch (error) {
       console.error("Failed to add item to cart:", error);
-      toast.error("Failed to add item to cart");
     }
   };
 
-  const handleRemoveFromCart = async (id) => {
+  // Function to remove item from cart using MongoDB ObjectId
+  const handleRemoveFromCart = async (_id) => {
+    // Accept _id from MongoDB
+    console.log("Removing item with _id:", _id); // Log the correct _id
     try {
-      await removeFromCart(id).unwrap();
+      await removeFromCart(_id).unwrap(); // Pass MongoDB ObjectId directly
       refetch();
       toast.success("Item removed from cart");
     } catch (error) {
