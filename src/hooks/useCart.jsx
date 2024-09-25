@@ -3,30 +3,62 @@ import {
   useGetCartQuery,
   useRemoveFromCartMutation,
 } from "../redux/api/api";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const useCart = () => {
-  // Fetch cart data
   const { data: cart = [], refetch } = useGetCartQuery();
-
-  // Define mutations for adding and removing items from the cart
   const [addToCart] = useAddToCartMutation();
   const [removeFromCart] = useRemoveFromCartMutation();
+  const navigate = useNavigate();
 
-  // Function to add item to cart
-  const handleAddToCart = async (item) => {
+  // Function to add item to cart with quantity management logic
+  const handleAddToCart = async (product) => {
     try {
-      await addToCart(item).unwrap(); // unwrapping to handle success/error
-      refetch(); // refetch cart after adding
+      const existingItem = cart.find((item) => item.productId === product._id);
+
+      // If the product already exists in the cart
+      if (existingItem) {
+        if (existingItem.quantity < product.quantity) {
+          const updatedCart = cart.map((item) =>
+            item.productId === product._id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          );
+
+          await addToCart({ cart: updatedCart }).unwrap();
+          refetch();
+          toast.success(`${product.title} quantity increased in the cart`);
+        } else {
+          toast.error("Maximum quantity reached");
+        }
+      } else {
+        // If the product is not in the cart, add it with quantity 1
+        const newCartItem = {
+          productId: product._id,
+          title: product.title,
+          price: product.price,
+          quantity: 1,
+          image: product.image,
+        };
+
+        await addToCart(newCartItem).unwrap();
+        refetch();
+        toast.success(`${product.title} added to the cart`);
+      }
+
+      navigate("/products/cart"); // Navigate to cart after adding/updating
     } catch (error) {
       console.error("Failed to add item to cart:", error);
+      toast.error("Failed to add item to cart");
     }
   };
 
-  // Function to remove item from cart
   const handleRemoveFromCart = async (id) => {
     try {
-      await removeFromCart(id).unwrap(); // unwrapping to handle success/error
-      refetch(); // refetch cart after removal
+      await removeFromCart(id).unwrap();
+      refetch();
+      toast.success("Item removed from cart");
     } catch (error) {
       console.error("Failed to remove item from cart:", error);
     }

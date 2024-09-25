@@ -16,6 +16,8 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
 import useCart from "../../../hooks/useCart"; // Import your custom cart hook
+import { Helmet } from "react-helmet-async";
+import Loading from "../../Shared/Loading/Loading";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -106,29 +108,46 @@ const ProductList = () => {
   };
 
   // Function to handle adding a product to the cart
-  const addToCartHandler = (item) => {
-    handleAddToCart({
-      productId: item._id,
-      title: item.title,
-      price: item.price,
-      quantity: 1,
-      image: item.image,
-    });
+  // const addToCartHandler = (item) => {
+  //   handleAddToCart({
+  //     productId: item._id,
+  //     title: item.title,
+  //     price: item.price,
+  //     quantity: 1,
+  //     image: item.image,
+  //   });
 
-    // Navigate to cart after adding the item
-    navigate("/products/cart");
+  //   // Navigate to cart after adding the item
+  //   navigate("/products/cart");
+  // };
+
+  const addToCartHandler = (product) => {
+    handleAddToCart(product)
+      .then(() => {
+        toast.success(`${product.title} added to cart`);
+      })
+      .catch((error) => {
+        toast.error("Failed to add product to cart");
+        console.error(error);
+      });
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen mt-10">
+        <Loading />
+      </div>
+    );
   }
-
   if (error) {
     return <p>Something went wrong: {error.message}</p>;
   }
 
   return (
     <div>
+      <Helmet>
+        <title>SuJu Botanica | All Products</title>
+      </Helmet>
       <SectionTitle heading="Products" subHeading="Helps to heal life" />
       <div>
         <div className="overflow-x-auto">

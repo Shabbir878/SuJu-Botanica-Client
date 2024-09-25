@@ -2,6 +2,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import useCart from "../../../hooks/useCart";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Cart = () => {
   const { cart, refetch, handleRemoveFromCart } = useCart(); // Ensure correct destructuring
@@ -56,6 +57,9 @@ const Cart = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>SuJu Botanica | Cart</title>
+      </Helmet>
       <div className="flex justify-evenly mb-8">
         <h2 className="text-4xl">Items: {cart.length}</h2>
         <h2 className="text-4xl">Total Price: ${totalPrice.toFixed(2)}</h2>
@@ -105,7 +109,7 @@ const Cart = () => {
                   </div>
                 </td>
                 <td>{item.title}</td>
-                <td>${item.price.toFixed(2)}</td>
+                <td>${item.price ? item.price.toFixed(2) : "N/A"}</td>
                 <td>{item.quantity}</td>
                 <th>
                   <button
