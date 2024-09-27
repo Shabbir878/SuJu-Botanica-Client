@@ -1,9 +1,8 @@
-import { FaHome, FaShoppingCart, FaTree, FaWallet } from "react-icons/fa";
+import { FaHome, FaTree } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-
 import { NavLink, Outlet } from "react-router-dom";
 
-const Products = () => {
+const CategoryList = () => {
   return (
     <div className="flex">
       {/* Dashboard side bar */}
@@ -11,30 +10,16 @@ const Products = () => {
         <ul className="menu p-4">
           <>
             <li>
-              <NavLink to="/products/allProducts">
+              <NavLink to="/categoryList/categories">
                 <FaHome />
-                All Products
+                All Category
               </NavLink>
             </li>
 
             <li>
-              <NavLink to="/products/addProduct">
+              <NavLink to="/categoryList/addCategory">
                 <FaTree />
-                Add Product
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink to="/products/cart">
-                <FaShoppingCart />
-                My Cart
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink to="/products/paymentHistory">
-                <FaWallet />
-                Payment History
+                Add Category
               </NavLink>
             </li>
           </>
@@ -49,9 +34,9 @@ const Products = () => {
           </li>
 
           <li>
-            <NavLink to="/categoryList/categories">
+            <NavLink to="/products/allProducts">
               <GiHamburgerMenu />
-              Categories
+              Products
             </NavLink>
           </li>
         </ul>
@@ -65,4 +50,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default CategoryList;

@@ -6,7 +6,8 @@
     "image": "https://i.ibb.co.com/zhZJsQG/aloevera.jpg",
     "rating": 4.8,
     "details": "Aloe vera is known for its soothing properties and is often used in skincare.",
-    "price": "$12.99"
+    "price": 13,
+    "quantity": 5
   },
   {
     "id": 2,
@@ -15,25 +16,28 @@
     "image": "https://i.ibb.co.com/bdhdR0F/bonsai.jpg",
     "rating": 4.5,
     "details": "Bonsai trees are miniature trees that are carefully cultivated to mimic the shape of mature trees.",
-    "price": "$29.99"
+    "price": 30,
+    "quantity": 8
   },
   {
     "id": 3,
-    "title": "Rose Bush",
-    "category": "Outdoor plant",
-    "image": "https://i.ibb.co.com/jvMDP4P/rose-bush.jpg",
-    "rating": 4.7,
-    "details": "Rose bushes are beloved for their beautiful blooms and delightful fragrance.",
-    "price": "$19.99"
-  },
-  {
-    "id": 4,
     "title": "Snake Plant",
     "category": "Indoor plant",
     "image": "https://i.ibb.co.com/HDyhBq3/snake-plant.jpg",
     "rating": 4.6,
     "details": "Snake plants are hardy and can thrive in low light, making them great indoor plants.",
-    "price": "$15.99"
+    "price": 15,
+    "quantity": 12
+  },
+  {
+    "id": 4,
+    "title": "Rose Bush",
+    "category": "Outdoor plant",
+    "image": "https://i.ibb.co.com/jvMDP4P/rose-bush.jpg",
+    "rating": 4.7,
+    "details": "Rose bushes are beloved for their beautiful blooms and delightful fragrance.",
+    "price": 20,
+    "quantity": 12
   },
   {
     "id": 5,
@@ -42,7 +46,8 @@
     "image": "https://i.ibb.co.com/Hx0hKDM/fiddle-leaf-fig.jpg",
     "rating": 4.4,
     "details": "Fiddle leaf figs are popular for their large, glossy leaves and striking appearance.",
-    "price": "$39.99"
+    "price": 40,
+    "quantity": 1
   },
   {
     "id": 6,
@@ -51,7 +56,8 @@
     "image": "https://i.ibb.co.com/SmQfv5L/leopard-lily.jpg",
     "rating": 4.2,
     "details": "Leopard lilies feature vibrant, spotted flowers that attract pollinators.",
-    "price": "$16.99"
+    "price": 17,
+    "quantity": 23
   },
   {
     "id": 7,
@@ -60,69 +66,77 @@
     "image": "https://i.ibb.co.com/FwSSqqh/garden-succulents.jpg",
     "rating": 4.5,
     "details": "These succulents are known for their resilience and unique shapes.",
-    "price": "$18.99"
+    "price": 19,
+    "quantity": 50
   },
   {
     "id": 8,
-    "title": "Foliage Plant",
-    "category": "Outdoor plant",
-    "image": "https://i.ibb.co.com/zJ2z1KG/foilage-plant.jpg",
-    "rating": 4.3,
-    "details": "Foliage plants add a lush touch to any indoor space with their vibrant leaves.",
-    "price": "$22.99"
-  },
-  {
-    "id": 9,
     "title": "Variety Plant",
     "category": "Indoor plant",
     "image": "https://i.ibb.co.com/TWqXyqX/variety-pant.webp",
     "rating": 4.1,
     "details": "A mixed variety of plants to brighten up your home.",
-    "price": "$24.99"
+    "price": 25,
+    "quantity": 20
+  },
+  {
+    "id": 9,
+    "title": "Spring Plant",
+    "category": "Office decor plant",
+    "image": "https://i.ibb.co/fqkY1vH/spring-plant.jpg",
+    "rating": 4.6,
+    "details": null,
+    "price": 21,
+    "quantity": 30
   },
   {
     "id": 10,
-    "title": "Spring Plant",
-    "category": "Office decor plant",
-    "image": "https://i.ibb.co.com/g3Hhn8K/spring-plant.jpg",
-    "rating": 4.6,
-    "details": "These plants bloom beautifully in spring, bringing color to your garden.",
-    "price": "$20.99"
-  },
-  {
-    "id": 11,
     "title": "Grass",
     "category": "Decor plant",
     "image": "https://i.ibb.co.com/k6w6DLY/grass.jpg",
-    "rating": 4.0,
+    "rating": 4,
     "details": "Ideal for landscaping, this grass variety is both durable and attractive.",
-    "price": "$9.99"
+    "price": 10,
+    "quantity": 44
   },
   {
-    "id": 12,
+    "id": 11,
     "title": "Succula plant",
     "category": "Gift plant",
     "image": "https://i.ibb.co.com/DgRscRz/saccula-plant.jpg",
     "rating": 4.2,
     "details": "Succula plants are perfect for beginners and require minimal care.",
-    "price": "$11.99"
+    "price": 12,
+    "quantity": 5
   },
   {
-    "id": 13,
+    "id": 12,
     "title": "Tulip",
     "category": "Indoor plant",
     "image": "https://i.ibb.co.com/3MW2JCh/tulip-plants.jpg",
     "rating": 4.5,
     "details": "Tulips are spring-blooming perennials known for their bright, cheerful colors.",
-    "price": "$14.99"
+    "price": 15,
+    "quantity": 18
+  },
+  {
+    "id": 13,
+    "title": "Rose Bouquet",
+    "category": "Outdoor plant",
+    "image": "https://i.ibb.co/cJVM9wK/flower-947485-1280.jpg",
+    "rating": 4.9,
+    "details": "A beautiful bouquet of roses, perfect for gifting or decorating.",
+    "price": 30,
+    "quantity": 27
   },
   {
     "id": 14,
-    "title": "Rose Bouquet",
+    "title": "Foliage Plant",
     "category": "Outdoor plant",
-    "image": "https://i.ibb.co.com/tzHSKFG/flower-947485-1280.jpg",
-    "rating": 4.9,
-    "details": "A beautiful bouquet of roses, perfect for gifting or decorating.",
-    "price": "$29.99"
+    "image": "https://i.ibb.co/7twpDvp/foilage-plant.jpg",
+    "rating": 4.3,
+    "details": "Foliage plants add a lush touch to any indoor space with their vibrant leaves.",
+    "price": 23,
+    "quantity": 32
   }
 ]

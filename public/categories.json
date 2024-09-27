@@ -1,0 +1,37 @@
+[
+  {
+    "category": "Succulent",
+    "image": "https://i.ibb.co.com/zhZJsQG/aloevera.jpg",
+    "description": "Hardy, low-maintenance plants, great for indoor or outdoor decor."
+  },
+  {
+    "category": "Bonsai",
+    "image": "https://i.ibb.co.com/bdhdR0F/bonsai.jpg",
+    "description": "Miniature trees carefully cultivated to mimic full-sized trees."
+  },
+  {
+    "category": "Outdoor Plant",
+    "image": "https://i.ibb.co.com/jvMDP4P/rose-bush.jpg",
+    "description": "Lush plants ideal for outdoor gardens, adding vibrancy and life."
+  },
+  {
+    "category": "Indoor Plant",
+    "image": "https://i.ibb.co.com/HDyhBq3/snake-plant.jpg",
+    "description": "Perfect for indoor environments, these plants thrive in low-light conditions."
+  },
+  {
+    "category": "Office Decor Plant",
+    "image": "https://i.ibb.co.com/g3Hhn8K/spring-plant.jpg",
+    "description": "Beautiful plants that bring nature into your office space for a fresh ambiance."
+  },
+  {
+    "category": "Decor Plant",
+    "image": "https://i.ibb.co.com/k6w6DLY/grass.jpg",
+    "description": "Elegant plants that enhance landscaping or home decoration with minimal effort."
+  },
+  {
+    "category": "Gift Plant",
+    "image": "https://i.ibb.co.com/DgRscRz/saccula-plant.jpg",
+    "description": "Thoughtful and low-maintenance plants, perfect as gifts for loved ones."
+  }
+]

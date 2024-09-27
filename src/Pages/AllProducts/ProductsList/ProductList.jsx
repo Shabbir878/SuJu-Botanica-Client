@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import {
   useGetProductsQuery,
@@ -12,12 +12,13 @@ import {
   FaShoppingCart,
 } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
-import useCart from "../../../hooks/useCart"; // Import your custom cart hook
+import useCart from "../../../hooks/useCart";
 import { Helmet } from "react-helmet-async";
 import Loading from "../../Shared/Loading/Loading";
+import ScrollButton from "../../Home/Home/ScrollButton";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -44,8 +45,34 @@ const ProductList = () => {
   } = useForm();
   const [isModalOpen, setModalOpen] = useState(false);
 
+  // Pagination, searching, and filtering states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Change this to show more items per page
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryQuery, setCategoryQuery] = useState(""); // New category search
+  const [sortCriteria, setSortCriteria] = useState("title"); // Default sorting by title
+  const [filteredData, setFilteredData] = useState([]);
+
   // Use the custom cart hook
   const { handleAddToCart } = useCart();
+
+  // Handle search and sorting effects
+  useEffect(() => {
+    if (data) {
+      let filtered = data.filter(
+        (item) =>
+          item.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+          item.category.toLowerCase().includes(categoryQuery.toLowerCase()) // Category filtering
+      );
+      filtered.sort((a, b) => (a[sortCriteria] > b[sortCriteria] ? 1 : -1));
+      setFilteredData(filtered);
+    }
+  }, [data, searchQuery, categoryQuery, sortCriteria]);
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleEdit = (item) => {
     setSelectedProductId(item._id);
@@ -106,15 +133,33 @@ const ProductList = () => {
     });
   };
 
-  const addToCartHandler = (product) => {
-    handleAddToCart(product)
-      .then(() => {
-        toast.success(`${product.title} added to cart`);
-      })
-      .catch((error) => {
-        toast.error("Failed to add product to cart");
-        console.error(error);
-      });
+  // Add to cart and reduce quantity
+  const addToCartHandler = async (product) => {
+    if (product.quantity > 0) {
+      // Check if the product is in stock
+      try {
+        console.log("Attempting to add product to cart: ", product);
+
+        // Attempt to add the product to the cart
+        const cartResult = await handleAddToCart(product);
+
+        // Check if adding to the cart was successful
+        if (cartResult) {
+          console.log("Product added to cart successfully", cartResult);
+          toast.success(`${product.title} added to cart`);
+        } else {
+          console.log("Failed to add product to cart: ", cartResult);
+          toast.error("Failed to add product to cart");
+        }
+      } catch (error) {
+        // Handle any error during the operation
+        toast.error("An error occurred while adding to cart");
+        console.error("Error during add to cart operation: ", error);
+      }
+    } else {
+      // If product is out of stock, show an error message
+      toast.error(`${product.title} is out of stock`);
+    }
   };
 
   if (isLoading) {
@@ -134,6 +179,34 @@ const ProductList = () => {
         <title>SuJu Botanica | All Products</title>
       </Helmet>
       <SectionTitle heading="Products" subHeading="Helps to heal life" />
+
+      {/* Search and Sort */}
+      <div className="mb-4 flex flex-col md:flex-row justify-between items-center">
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="input input-bordered w-full max-w-xs mb-2 md:mb-0"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Search by category..."
+          className="input input-bordered w-full max-w-xs mb-2 md:mb-0"
+          value={categoryQuery}
+          onChange={(e) => setCategoryQuery(e.target.value)}
+        />
+        <select
+          className="select select-bordered ml-2"
+          value={sortCriteria}
+          onChange={(e) => setSortCriteria(e.target.value)}
+        >
+          <option value="title">Title</option>
+          <option value="price">Price</option>
+          <option value="rating">Rating</option>
+        </select>
+      </div>
+
       <div>
         <div className="overflow-x-auto">
           <table className="table w-full table-auto">
@@ -152,10 +225,12 @@ const ProductList = () => {
               </tr>
             </thead>
             <tbody>
-              {data && data.length > 0 ? (
-                data.map((item, index) => (
+              {currentItems && currentItems.length > 0 ? (
+                currentItems.map((item, index) => (
                   <tr key={item._id}>
-                    <td className="text-center">{index + 1}</td>
+                    <td className="text-center">
+                      {index + 1 + (currentPage - 1) * itemsPerPage}
+                    </td>
                     <td>
                       <div className="flex items-center justify-center gap-3">
                         <div className="avatar">
@@ -170,7 +245,7 @@ const ProductList = () => {
                     <td className="text-center">{item.rating}</td>
                     <td className="text-center">
                       <Link to={`/products/details/${item._id}`}>
-                        <button className="btn btn-ghost bg-blue-500">
+                        <button className="btn btn-ghost bg-blue-500 text-sm">
                           <FaInfoCircle className="text-white" />
                         </button>
                       </Link>
@@ -183,25 +258,25 @@ const ProductList = () => {
                     <td className="text-center">${item.price}</td>
                     <td className="text-center">
                       <button
-                        className="btn btn-ghost btn-lg"
                         onClick={() => handleEdit(item)}
+                        className="btn btn-warning text-sm"
                       >
-                        <FaEdit className="text-green-500 text-2xl" />
+                        <FaEdit className="text-white" />
                       </button>
                     </td>
                     <td className="text-center">
                       <button
-                        className="btn btn-ghost btn-lg"
                         onClick={() => handleDelete(item._id)}
+                        className="btn btn-error"
                       >
-                        <FaTrashAlt className="text-red-600 text-2xl" />
+                        <FaTrashAlt className="text-white" />
                       </button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="10" className="text-center">
+                  <td colSpan="11" className="text-center">
                     No products found.
                   </td>
                 </tr>
@@ -209,7 +284,25 @@ const ProductList = () => {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination */}
+        <div className="pagination mt-4 flex justify-center">
+          {Array.from({
+            length: Math.ceil(filteredData.length / itemsPerPage),
+          }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`btn ${
+                currentPage === i + 1 ? "btn-primary" : "btn-ghost"
+              } mx-1`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
       </div>
+
       {isModalOpen && (
         <div className="modal modal-open">
           <div className="modal-box bg-green-50">
@@ -345,6 +438,8 @@ const ProductList = () => {
           </div>
         </div>
       )}
+
+      <ScrollButton />
     </div>
   );
 };

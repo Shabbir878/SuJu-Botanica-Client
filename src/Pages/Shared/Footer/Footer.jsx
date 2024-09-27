@@ -25,10 +25,10 @@ const Footer = () => {
           <div className="mt-10 md:mt-0 text-center md:text-start">
             <h6 className="text-2xl font-extrabold">Legal</h6>
             <div className="flex flex-col gap-2 md:gap-0 text-center mt-2 md:text-start">
-              <a href="/terms&condition" className="link link-hover">
+              <a href="" className="link link-hover">
                 Terms of use
               </a>
-              <a href="/privacypolicy" className="link link-hover">
+              <a href="" className="link link-hover">
                 Privacy policy
               </a>
             </div>

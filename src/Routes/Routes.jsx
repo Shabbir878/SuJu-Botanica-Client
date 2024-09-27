@@ -6,6 +6,12 @@ import ProductList from "../Pages/AllProducts/ProductsList/ProductList";
 import ProductDetails from "../Pages/AllProducts/ProductsList/ProductDetails";
 import AddProduct from "../Pages/AllProducts/AddProduct/AddProduct";
 import Cart from "../Pages/AllProducts/Cart/Cart";
+import Payment from "../Pages/Payment/Payment";
+import PaymentHistory from "../Pages/Payment/PaymentHistory";
+import Category from "../Pages/Category/Category";
+import AddCategory from "../Pages/Category/AddCategory";
+import CategoryList from "../Layout/CategoryList";
+import CategoryProducts from "../Pages/Category/CategoryProduct";
 
 export const router = createBrowserRouter([
   {
@@ -16,16 +22,6 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-
-      // {
-      //   path: "/menu",
-      //   element: <Menu />,
-      // },
-
-      // {
-      //   path: "/order/:category",
-      //   element: <Order />,
-      // },
     ],
   },
 
@@ -55,35 +51,35 @@ export const router = createBrowserRouter([
         element: <Cart />,
       },
 
-      //     {
-      //       path: "payment",
-      //       element: <Payment />,
-      //     },
+      {
+        path: "payments",
+        element: <Payment />,
+      },
 
-      //     {
-      //       path: "paymentHistory",
-      //       element: <PaymentHistory />,
-      //     },
+      {
+        path: "paymentHistory",
+        element: <PaymentHistory />,
+      },
 
-      //     {
-      //       path: "manageItems",
-      //       element: <ManageItems />,
-      //     },
+      {
+        path: "categories/:categoryName", // Dynamic route for category
+        element: <CategoryProducts />, // Component to handle displaying products by category
+      },
+    ],
+  },
 
-      //     {
-      //       path: "updateItem/:id",
-      //       element: <UpdateItem />,
-      //       // loader: ({ params }) =>
-      //       //   // fetch(`http://localhost:5000/menu/${params.id}`),
-      //       //   fetch(
-      //       //     `https://bistro-boss-server-xi-fawn.vercel.app/menu/${params.id}`
-      //       //   ),
-      //     },
-
-      //     {
-      //       path: "users",
-      //       element: <AllUsers />,
-      //     },
+  {
+    path: "/categoryList",
+    element: <CategoryList />,
+    children: [
+      {
+        path: "categories",
+        element: <Category />,
+      },
+      {
+        path: "addCategory",
+        element: <AddCategory />,
+      },
     ],
   },
 ]);

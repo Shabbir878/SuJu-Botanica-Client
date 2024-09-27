@@ -1,4 +1,5 @@
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+import Mosaic from "../Mosaic/Mosaic";
 
 const PopularCategory = () => {
   return (
@@ -7,6 +8,7 @@ const PopularCategory = () => {
         subHeading="Popular Categories"
         heading="From Our Collection"
       />
+      <Mosaic />
     </section>
   );
 };

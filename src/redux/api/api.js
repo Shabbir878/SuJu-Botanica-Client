@@ -6,7 +6,7 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000", // Adjust this to your actual base URL
   }),
-  tagTypes: ["products", "categories", "orders", "cart"],
+  tagTypes: ["products", "categories", "payment", "cart", "reviews"],
   endpoints: (builder) => ({
     // Products Endpoints
     getProducts: builder.query({
@@ -54,14 +54,12 @@ export const baseApi = createApi({
       }),
       providesTags: ["products"],
     }),
-    getAllProductsCategories: builder.query({
-      query: (name) => {
-        const formattedName = decodeURIComponent(name);
-        return {
-          method: "GET",
-          url: `/products?category=${formattedName}`,
-        };
-      },
+    // Fetch products by category
+    getProductsByCategory: builder.query({
+      query: (categoryName) => ({
+        method: "GET",
+        url: `/products/categories/${encodeURIComponent(categoryName)}`,
+      }),
       providesTags: ["products", "categories"],
     }),
 
@@ -77,7 +75,7 @@ export const baseApi = createApi({
       query: (data) => {
         return {
           method: "POST",
-          url: "/categories/create-category",
+          url: "/categories/addCategory",
           body: data,
           headers: {
             "Content-Type": "application/json",
@@ -87,26 +85,21 @@ export const baseApi = createApi({
       invalidatesTags: ["categories"],
     }),
 
-    // Orders Endpoints
-    getOrders: builder.query({
+    getPayments: builder.query({
+      query: () => ({
+        url: "/payments",
+        method: "GET",
+      }),
+      providesTags: ["payment"],
+    }),
+
+    //reviews
+    getReviews: builder.query({
       query: () => ({
         method: "GET",
-        url: "/orders",
+        url: "/reviews", // Your actual reviews endpoint
       }),
-      providesTags: ["orders"],
-    }),
-    addOrder: builder.mutation({
-      query: (data) => {
-        return {
-          method: "POST",
-          url: "/orders/create-order",
-          body: data,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
-      },
-      invalidatesTags: ["orders"],
+      providesTags: ["reviews"],
     }),
 
     // Cart Endpoints
@@ -128,6 +121,18 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ["cart"],
     }),
+    updateCartItemQuantity: builder.mutation({
+      query: ({ id, quantity }) => ({
+        url: `/carts/${id}`,
+        method: "PATCH",
+        body: { quantity }, // Only pass the quantity to update
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+      invalidatesTags: ["cart"], // Ensure cart is refetched
+    }),
+
     removeFromCart: builder.mutation({
       query: (id) => ({
         url: `/carts/${id}`, // Ensure id is a MongoDB ObjectId
@@ -145,12 +150,13 @@ export const {
   useUpdateProductMutation,
   useDeleteProductMutation,
   useGetASingleProductQuery,
-  useGetAllProductsCategoriesQuery,
+  useGetProductsByCategoryQuery,
   useGetCategoriesQuery,
   useAddCategoryMutation,
-  useGetOrdersQuery,
-  useAddOrderMutation,
+  useGetPaymentsQuery,
   useGetCartQuery,
   useAddToCartMutation,
   useRemoveFromCartMutation,
+  useUpdateCartItemQuantityMutation,
+  useGetReviewsQuery,
 } = baseApi;

@@ -1,0 +1,62 @@
+[
+  {
+    "_id": { "$oid": "650c2f1f30a4bd0012a3b1e0" },
+    "name": "John Doe",
+    "review": "I bought the Aloe Vera for my skincare routine, and it's been a game-changer! The leaves are healthy, and the plant arrived in perfect condition.",
+    "rating": 5
+  },
+  {
+    "_id": { "$oid": "650c2f1f30a4bd0012a3b1e1" },
+    "name": "Jane Smith",
+    "review": "The Bonsai Tree was beautifully shaped, but it was slightly smaller than expected. Still, I'm happy with my purchase.",
+    "rating": 4
+  },
+  {
+    "_id": { "$oid": "650c2f1f30a4bd0012a3b1e2" },
+    "name": "Alice Brown",
+    "review": "I love the Snake Plant! It's very low-maintenance and adds a touch of green to my living room. Highly recommended for beginners.",
+    "rating": 5
+  },
+  {
+    "_id": { "$oid": "650c2f1f30a4bd0012a3b1e3" },
+    "name": "Michael Johnson",
+    "review": "The Rose Bush I received was in excellent condition with vibrant blooms. It looks amazing in my garden.",
+    "rating": 5
+  },
+  {
+    "_id": { "$oid": "650c2f1f30a4bd0012a3b1e4" },
+    "name": "Emily Davis",
+    "review": "The Fiddle Leaf Fig is beautiful, but it needs a lot of care and sunlight. Not for someone who can't devote time to their plants.",
+    "rating": 3
+  },
+  {
+    "_id": { "$oid": "650c2f1f30a4bd0012a3b1e5" },
+    "name": "David Wilson",
+    "review": "The Leopard Lily is lovely with its unique spots, but it arrived with a few broken leaves. Customer service was helpful, though.",
+    "rating": 4
+  },
+  {
+    "_id": { "$oid": "650c2f1f30a4bd0012a3b1e6" },
+    "name": "Olivia Martinez",
+    "review": "These Garden Succulents are amazing! They came well-packaged and are perfect for outdoor decoration.",
+    "rating": 5
+  },
+  {
+    "_id": { "$oid": "650c2f1f30a4bd0012a3b1e7" },
+    "name": "James Lee",
+    "review": "The Variety Plant pack was a bit of a mixed bag. Some plants were healthy, but a few seemed overwatered. It's decent for the price.",
+    "rating": 3
+  },
+  {
+    "_id": { "$oid": "650c2f1f30a4bd0012a3b1e8" },
+    "name": "Sophia Garcia",
+    "review": "I got the Spring Plant for my office desk, and it's the perfect size! It's easy to care for and adds some life to my workspace.",
+    "rating": 4
+  },
+  {
+    "_id": { "$oid": "650c2f1f30a4bd0012a3b1e9" },
+    "name": "William Anderson",
+    "review": "The Grass was great for my landscaping project. It was healthy and easy to plant. Will buy again if I need more.",
+    "rating": 5
+  }
+]

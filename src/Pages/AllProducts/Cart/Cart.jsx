@@ -1,19 +1,177 @@
+// import { FaTrashAlt } from "react-icons/fa";
+// import useCart from "../../../hooks/useCart";
+// import Swal from "sweetalert2";
+// import { Helmet } from "react-helmet-async";
+// import { Link } from "react-router-dom";
+
+// const Cart = () => {
+//   const { cart, refetch, handleRemoveFromCart } = useCart();
+
+//   // Calculate total price, ensuring each price is a valid number
+//   const totalPrice = cart.reduce(
+//     (total, item) => total + (Number(item.price) || 0),
+//     0
+//   );
+
+//   // Function to clear all items from the cart
+//   const handleRemoveAll = async () => {
+//     const result = await Swal.fire({
+//       title: "Are you sure?",
+//       text: "This will remove all items from your cart!",
+//       icon: "warning",
+//       showCancelButton: true,
+//       confirmButtonColor: "#3085d6",
+//       cancelButtonColor: "#d33",
+//       confirmButtonText: "Yes, clear all!",
+//     });
+
+//     if (result.isConfirmed) {
+//       try {
+//         for (const item of cart) {
+//           await handleRemoveFromCart(item._id);
+//         }
+//         await refetch();
+//         Swal.fire(
+//           "Cleared!",
+//           "All items have been removed from your cart.",
+//           "success"
+//         );
+//       } catch (error) {
+//         console.error("Failed to clear cart:", error);
+//         Swal.fire("Error!", "Failed to clear cart items.", "error");
+//       }
+//     }
+//   };
+
+//   // Function to delete a single item from the cart
+//   const handleDelete = async (_id) => {
+//     const result = await Swal.fire({
+//       title: "Are you sure?",
+//       text: "You won't be able to revert this!",
+//       icon: "warning",
+//       showCancelButton: true,
+//       confirmButtonColor: "#3085d6",
+//       cancelButtonColor: "#d33",
+//       confirmButtonText: "Yes, delete it!",
+//     });
+
+//     if (result.isConfirmed) {
+//       try {
+//         await handleRemoveFromCart(_id);
+//         await refetch();
+//         Swal.fire("Deleted!", "Your item has been deleted.", "success");
+//       } catch (error) {
+//         console.error("Failed to delete item:", error);
+//         Swal.fire("Error!", "Failed to delete item.", "error");
+//       }
+//     }
+//   };
+
+//   return (
+//     <div className="p-4 md:p-8">
+//       <Helmet>
+//         <title>SuJu Botanica | Cart</title>
+//       </Helmet>
+
+//       {/* Cart Summary */}
+//       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+//         <h2 className="text-lg md:text-2xl">Items: {cart.length}</h2>
+//         <h2 className="text-lg md:text-2xl">
+//           Total Price: ${totalPrice.toFixed(2)}
+//         </h2>
+//         {cart.length ? (
+//           <Link to="/products/payments">
+//             <button className="btn btn-outline font-bold bg-slate-100 border-green-400 border-0 border-b-4 w-full md:w-auto">
+//               Proceed to Payment
+//             </button>
+//           </Link>
+//         ) : (
+//           <button
+//             disabled
+//             className="btn btn-outline font-bold bg-slate-100 border-green-400 border-0 border-b-4 w-full md:w-auto"
+//           >
+//             Proceed to Payment
+//           </button>
+//         )}
+//       </div>
+
+//       {/* Clear All Button */}
+//       <div className="flex justify-center md:justify-end mt-6">
+//         {cart.length > 0 && (
+//           <button
+//             onClick={handleRemoveAll}
+//             className="px-4 py-2 bg-red-500 text-white rounded-md text-sm md:text-base"
+//           >
+//             Clear All Items
+//           </button>
+//         )}
+//       </div>
+
+//       {/* Cart Table */}
+//       <div className="overflow-x-auto">
+//         <table className="table w-full min-w-[600px]">
+//           <thead>
+//             <tr>
+//               <th>#</th>
+//               <th>Image</th>
+//               <th>Name</th>
+//               <th>Price</th>
+//               <th>Quantity</th>
+//               <th>Action</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {cart.map((item, index) => (
+//               <tr key={`${item.productId}-${index}`}>
+//                 <th>{index + 1}</th>
+//                 <td>
+//                   <div className="flex items-center gap-3">
+//                     <div className="avatar">
+//                       <div className="mask mask-squircle h-12 w-12">
+//                         <img src={item.image} alt={item.title} />
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </td>
+//                 <td className="text-sm md:text-base">{item.title}</td>
+//                 <td className="text-sm md:text-base">
+//                   {item.price ? `$${parseFloat(item.price).toFixed(2)}` : "N/A"}
+//                 </td>
+//                 <td className="text-sm md:text-base">{item.quantity}</td>
+//                 <th>
+//                   <button
+//                     onClick={() => handleDelete(item._id)}
+//                     className="btn btn-ghost btn-lg"
+//                   >
+//                     <FaTrashAlt className="text-red-600" />
+//                   </button>
+//                 </th>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Cart;
+
 import { FaTrashAlt } from "react-icons/fa";
 import useCart from "../../../hooks/useCart";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 
 const Cart = () => {
   const { cart, refetch, handleRemoveFromCart } = useCart();
 
-  // Calculate total price
+  // Calculate total price only for items within stock
   const totalPrice = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) =>
+      total + (item.quantity > 0 ? Number(item.price) * item.quantity : 0),
     0
   );
 
-  // Function to clear all items from the cart
   const handleRemoveAll = async () => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -27,7 +185,6 @@ const Cart = () => {
 
     if (result.isConfirmed) {
       try {
-        // Loop through the cart and remove each item using productId
         for (const item of cart) {
           await handleRemoveFromCart(item._id);
         }
@@ -45,7 +202,6 @@ const Cart = () => {
   };
 
   const handleDelete = async (_id) => {
-    // Expect MongoDB _id, not productId
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -58,7 +214,7 @@ const Cart = () => {
 
     if (result.isConfirmed) {
       try {
-        await handleRemoveFromCart(_id); // Pass the MongoDB ObjectId (_id)
+        await handleRemoveFromCart(_id);
         await refetch();
         Swal.fire("Deleted!", "Your item has been deleted.", "success");
       } catch (error) {
@@ -69,39 +225,41 @@ const Cart = () => {
   };
 
   return (
-    <div>
-      <Helmet>
-        <title>SuJu Botanica | Cart</title>
-      </Helmet>
-
-      {/* Cart Summary */}
-      <div className="flex justify-evenly mb-8">
-        <h2 className="text-4xl">Items: {cart.length}</h2>
-        <h2 className="text-4xl">Total Price: ${totalPrice.toFixed(2)}</h2>
+    <div className="p-4 md:p-8">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+        <h2 className="text-lg md:text-2xl">Items: {cart.length}</h2>
+        <h2 className="text-lg md:text-2xl">
+          Total Price: ${totalPrice.toFixed(2)}
+        </h2>
         {cart.length ? (
-          <Link to="/dashboard/payment">
-            <button className="btn btn-primary">Pay</button>
+          <Link to="/products/payments">
+            <button className="btn btn-outline font-bold bg-slate-100 border-green-400 border-0 border-b-4 w-full md:w-auto">
+              Proceed to Payment
+            </button>
           </Link>
         ) : (
-          <button disabled className="btn btn-primary">
-            Pay
+          <button
+            disabled
+            className="btn btn-outline font-bold bg-slate-100 border-green-400 border-0 border-b-4 w-full md:w-auto"
+          >
+            Proceed to Payment
           </button>
         )}
       </div>
 
-      {/* Clear All Button */}
-      <div className="flex justify-center md:justify-end mt-10">
-        <button
-          onClick={handleRemoveAll}
-          className="px-4 py-2 bg-red-500 text-white rounded-sm"
-        >
-          Clear All Items
-        </button>
+      <div className="flex justify-center md:justify-end mt-6">
+        {cart.length > 0 && (
+          <button
+            onClick={handleRemoveAll}
+            className="px-4 py-2 bg-red-500 text-white rounded-md text-sm md:text-base"
+          >
+            Clear All Items
+          </button>
+        )}
       </div>
 
-      {/* Cart Table */}
       <div className="overflow-x-auto">
-        <table className="table w-full">
+        <table className="table w-full min-w-[600px]">
           <thead>
             <tr>
               <th>#</th>
@@ -114,7 +272,7 @@ const Cart = () => {
           </thead>
           <tbody>
             {cart.map((item, index) => (
-              <tr key={`${item.productId}-${index}`}>
+              <tr key={item.productId}>
                 <th>{index + 1}</th>
                 <td>
                   <div className="flex items-center gap-3">
@@ -126,16 +284,16 @@ const Cart = () => {
                   </div>
                 </td>
                 <td>{item.title}</td>
-                <td>${item.price ? item.price.toFixed(2) : "N/A"}</td>
+                <td>${item.price}</td>
                 <td>{item.quantity}</td>
-                <th>
+                <td>
                   <button
-                    onClick={() => handleDelete(item._id)} // Ensure correct productId is passed
-                    className="btn btn-ghost btn-lg"
+                    onClick={() => handleDelete(item._id)}
+                    className="btn btn-ghost text-red-600 text-lg"
                   >
-                    <FaTrashAlt className="text-red-600" />
+                    <FaTrashAlt />
                   </button>
-                </th>
+                </td>
               </tr>
             ))}
           </tbody>

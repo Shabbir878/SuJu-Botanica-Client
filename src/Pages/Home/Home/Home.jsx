@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet-async";
 import PopularCategory from "../PopularCategory/PopularCategory";
 import ScrollButton from "./ScrollButton";
 import HomeProducts from "../HomeProducts/HomeProducts";
+import Mosaic from "../Mosaic/Mosaic";
+import Reviews from "../Reviews/Reviews";
 
 const Home = () => {
   return (
@@ -13,6 +15,7 @@ const Home = () => {
       <Banner />
       <HomeProducts />
       <PopularCategory />
+      <Reviews />
       <ScrollButton />
     </div>
   );
