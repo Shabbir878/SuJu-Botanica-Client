@@ -9,7 +9,7 @@ const Banner = () => {
     {
       id: 1,
       image: img1,
-      subText: "NatureNest Destination",
+      subText: "FloraVista Haven",
       text: "Leopard Lily",
       details:
         "The symbol of strength and resilience. Purify your home with leopard lily plants.",
@@ -17,7 +17,7 @@ const Banner = () => {
     {
       id: 2,
       image: img2,
-      subText: "NatureNest Destination",
+      subText: "FloraVista Haven",
       text: "Calathea Plant",
       details:
         "It is a long established fact a reader by the readable content looking.",
@@ -25,7 +25,7 @@ const Banner = () => {
     {
       id: 3,
       image: img3,
-      subText: "NatureNest Destination",
+      subText: "FloraVista Haven",
       text: "Spring Plant",
       details:
         "We’re Spring Plant, When you’ve got your health, you got everything.",
