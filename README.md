@@ -42,8 +42,8 @@ Ensure you have the following installed:
 
 ## Installation Steps
 Clone the Repository:
-bash
-```
+
+```bash
 Copy code
 git clone https://github.com/your-username/SuJu-Botanica-Client.git
 git clone https://github.com/your-username/SuJu-Botanica-Server.git
