@@ -43,15 +43,13 @@ Ensure you have the following installed:
 ## Installation Steps
 Clone the Repository:
 
-```bash
-Copy code
+```bash Copy code
 git clone https://github.com/your-username/SuJu-Botanica-Client.git
 git clone https://github.com/your-username/SuJu-Botanica-Server.git
 ```
 
 ## Install Dependencies:
-```bash
-Copy code
+```bash Copy code
 npm install
 ```
 ## Backend Configuration:
@@ -62,41 +60,35 @@ cd SuJu-Botanica-Server
 
 ## Create .env File:
 Create a .env file in the backend directory and add the following environment variables:
-```plaintext
-Copy code
+```plaintext Copy code
 DB_USER=your_db_user
 DB_PASS=your_db_pass
 STRIPE_SECRET_KEY=your_stripe_secret_key
 ```
 
 ## Start the Backend Server:
-```bash
-Copy code
+```bash Copy code
 npm start
 ```
 
 ## Frontend Configuration:
 Navigate to the frontend folder:
-```bash
-Copy code
+```bash Copy code
 cd SuJu-Botanica-Client
 ```
 ## Install Frontend Dependencies:
-```bash
-Copy code
+```bash Copy code
 npm install
 ```
 
 ## Create .env File:
 Create a .env file in the frontend directory and add:
-```plaintext
-Copy code
+```plaintext Copy code
 VITE_IMAGE_HOSTING_KEY=your_vite_image_hosting_key
 VITE_PAYMENT_GATEWAY_PK=your_vite_payment_gateway_pk
 ```
 ## Start the Frontend Development Server:
-```bash
-Copy code
+```bash Copy code
 npm run dev
 ```
 ## Configuration
