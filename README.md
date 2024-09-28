@@ -56,9 +56,7 @@ npm install
 ```
 ## Backend Configuration:
 Navigate to the backend folder:
-```
-bash
-Copy code
+```bash Copy code
 cd SuJu-Botanica-Server
 ```
 
