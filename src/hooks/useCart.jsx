@@ -34,7 +34,7 @@ const useCart = () => {
       // Check if the new quantity exceeds available stock
       if (newQuantity > product.quantity) {
         toast.error(
-          `Cannot add more than ${product.stock} of ${product.title}`
+          `Stock of ${product.title} are ${product.quantity} pcs. Stock Out `
         );
         return;
       }

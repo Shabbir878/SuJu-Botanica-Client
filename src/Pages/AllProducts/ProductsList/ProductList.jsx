@@ -69,6 +69,26 @@ const ProductList = () => {
     }
   }, [data, searchQuery, categoryQuery, sortCriteria]);
 
+  // Handle form default values based on selected product
+  useEffect(() => {
+    if (selectedProductId) {
+      const selectedProduct = data.find(
+        (product) => product._id === selectedProductId
+      );
+      if (selectedProduct) {
+        reset({
+          title: selectedProduct.title,
+          description: selectedProduct.description,
+          price: selectedProduct.price,
+          quantity: selectedProduct.quantity,
+          rating: selectedProduct.rating,
+          category: selectedProduct.category,
+          image: selectedProduct.image,
+        });
+      }
+    }
+  }, [selectedProductId, data, reset]);
+
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
