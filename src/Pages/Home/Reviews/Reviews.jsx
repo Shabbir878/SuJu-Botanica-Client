@@ -9,6 +9,7 @@ import Loading from "../../Shared/Loading/Loading";
 import "swiper/css";
 import "swiper/css/navigation";
 import "@smastrom/react-rating/style.css";
+import { FaQuoteLeft } from "react-icons/fa";
 
 const Reviews = () => {
   // Use the custom hook from RTK Query to fetch reviews
@@ -27,7 +28,7 @@ const Reviews = () => {
   }
 
   return (
-    <section className="my-20">
+    <section className="my-8">
       <SectionTitle subHeading="What Our Client Say" heading="Reviews" />
 
       <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
@@ -40,6 +41,9 @@ const Reviews = () => {
                 value={review.rating}
                 readOnly
               />
+              <div className="flex justify-center mt-4">
+                <FaQuoteLeft className="text-7xl"></FaQuoteLeft>
+              </div>
               <p className="py-8">{review.review}</p> {/* Review text */}
               <h3 className="text-2xl text-green-400 font-bold">
                 {review.name}

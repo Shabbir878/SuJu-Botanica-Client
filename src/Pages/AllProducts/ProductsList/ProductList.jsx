@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import {
   useGetProductsQuery,
@@ -140,17 +140,10 @@ const ProductList = () => {
       try {
         console.log("Attempting to add product to cart: ", product);
 
-        // Attempt to add the product to the cart
-        const cartResult = await handleAddToCart(product);
+        // Call handleAddToCart from the useCart hook
+        await handleAddToCart(product);
 
-        // Check if adding to the cart was successful
-        if (cartResult) {
-          console.log("Product added to cart successfully", cartResult);
-          toast.success(`${product.title} added to cart`);
-        } else {
-          console.log("Failed to add product to cart: ", cartResult);
-          toast.error("Failed to add product to cart");
-        }
+        toast.success(`${product.title} added to cart`);
       } catch (error) {
         // Handle any error during the operation
         toast.error("An error occurred while adding to cart");

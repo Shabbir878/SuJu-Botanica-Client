@@ -123,9 +123,9 @@ export const baseApi = createApi({
     }),
     updateCartItemQuantity: builder.mutation({
       query: ({ id, quantity }) => ({
-        url: `/carts/${id}`,
+        url: `/carts/${id}`, // Ensure this is your backend endpoint
         method: "PATCH",
-        body: { quantity }, // Only pass the quantity to update
+        body: { quantity }, // Pass the new quantity to update
         headers: {
           "Content-Type": "application/json",
         },

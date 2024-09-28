@@ -16,49 +16,56 @@ const useCart = () => {
 
   // Function to add item to cart
   const handleAddToCart = async (product) => {
-    try {
-      // Check if product is out of stock
-      if (product.quantity <= 0) {
-        toast.error(`${product.title} is out of stock`);
+    // Check if product is out of stock
+    if (product.quantity <= 0) {
+      toast.error(`${product.title} is out of stock`);
+      return;
+    }
+
+    // Find if the product is already in the cart
+    const existingCartItem = cart.find(
+      (item) => item.productId === product._id // Ensure _id matches with productId in cart
+    );
+
+    if (existingCartItem) {
+      // Calculate new quantity
+      const newQuantity = existingCartItem.quantity + 1;
+
+      // Check if the new quantity exceeds available stock
+      if (newQuantity > product.quantity) {
+        toast.error(
+          `Cannot add more than ${product.stock} of ${product.title}`
+        );
         return;
       }
 
-      // Check if the product already exists in the cart
-      const existingItem = cart.find((item) => item.productId === product._id);
+      // Update cart item quantity
+      const cartResult = await updateCartItemQuantity({
+        id: existingCartItem._id, // Ensure to pass the correct ID for the cart item
+        quantity: newQuantity,
+        productId: product._id, // Use MongoDB ObjectId
+      });
 
-      // If product exists, update the quantity (without exceeding available stock)
-      if (existingItem) {
-        if (existingItem.quantity < product.quantity) {
-          const updatedItem = {
-            ...existingItem,
-            quantity: existingItem.quantity + 1,
-          };
-          await addToCart(updatedItem).unwrap();
-          toast.success(`Updated quantity of ${product.title}`);
-        } else {
-          toast.error(
-            `Cannot add more than available stock for ${product.title}`
-          );
-        }
-      } else {
-        // Add new product to the cart
-        const newItem = {
-          productId: product._id, // Use MongoDB ObjectId
-          title: product.title,
-          price: product.price,
-          quantity: 1, // Start with 1 quantity
-          image: product.image,
-        };
-        await addToCart(newItem).unwrap();
-        toast.success(`${product.title} added to cart`);
+      if (cartResult) {
+        toast.success(`Updated ${product.title} quantity to ${newQuantity}`);
+        refetch();
         navigate("/products/cart");
       }
+    } else {
+      // Add new product to cart
+      const cartResult = await addToCart({
+        productId: product._id,
+        title: product.title,
+        price: product.price,
+        quantity: 1,
+        image: product.image,
+      });
 
-      // Refetch to update cart state
-      refetch();
-    } catch (error) {
-      console.error("Failed to add item to cart:", error);
-      toast.error("Failed to add item to cart");
+      if (cartResult) {
+        toast.success(`${product.title} added to cart`);
+        refetch();
+        navigate("/products/cart");
+      }
     }
   };
 
@@ -76,21 +83,19 @@ const useCart = () => {
 
   // Function to reduce item quantity
   const handleReduceQuantity = async (item) => {
-    try {
-      if (item.quantity > 1) {
-        const updatedQuantity = item.quantity - 1;
-        await updateCartItemQuantity({
-          id: item._id,
-          quantity: updatedQuantity,
-        }).unwrap();
-        toast.success(`Reduced quantity of ${item.title}`);
-      } else {
-        toast.error(`${item.title} cannot be reduced further`);
+    if (item.quantity <= 1) {
+      await handleRemoveFromCart(item.productId);
+    } else {
+      const newQuantity = item.quantity - 1;
+      const result = await updateCartItemQuantity({
+        productId: item.productId,
+        quantity: newQuantity,
+      });
+
+      if (result) {
+        toast.success(`Reduced quantity of ${item.title} to ${newQuantity}`);
+        refetch();
       }
-      refetch();
-    } catch (error) {
-      console.error("Failed to update item quantity:", error);
-      toast.error("Failed to update item quantity");
     }
   };
 
