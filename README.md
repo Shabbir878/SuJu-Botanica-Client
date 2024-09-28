@@ -8,7 +8,7 @@ Welcome to SuJu Botanica, an online nursery website where users can browse, filt
 SuJu Botanica provides a user-friendly experience for customers to shop for a wide variety of plants. The platform supports features like category-wise browsing, product search, real-time stock management, and payment via Stripe. Users can manage their shopping cart, proceed to checkout, and complete their purchase securely online.
 
 ## Features
-Public Routes:
+**Public Routes**:
 All routes are accessible without authentication.
 
 ## Product Browsing:
